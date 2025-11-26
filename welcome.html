@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - Air India</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="welcome-container">
+        <div class="welcome-content">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Air_India_Logo.svg" alt="Air India" class="welcome-logo">
+            <h1 class="welcome-title">Welcome to Air India</h1>
+            <p class="welcome-subtitle">India's Pride, World's Trust</p>
+            
+            <div class="welcome-message">
+                <p>Experience world-class service and comfort as you fly with India's national carrier.</p>
+                <p>Your journey to excellence begins here.</p>
+            </div>
+            
+            <button onclick="location.href='dashboard.html'" class="btn-continue">
+                Continue to Dashboard
+            </button>
+            
+            <div class="welcome-features">
+                <div class="feature">
+                    <div class="feature-icon">✈️</div>
+                    <h3>Global Network</h3>
+                    <p>Fly to 100+ destinations worldwide</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">⭐</div>
+                    <h3>Premium Service</h3>
+                    <p>Award-winning hospitality</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Safe Travel</h3>
+                    <p>Your safety is our priority</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Auto redirect after 3 seconds
+        setTimeout(() => {
+            location.href = 'dashboard.html';
+        }, 3000);
+    </script>
+</body>
+</html>

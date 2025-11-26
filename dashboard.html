@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Air India Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <!-- <img src="https://upload.wikimedia.org/wikipedia/commons/1/15/Air_India_Logo.svg" alt="Air India" class="sidebar-logo"> -->
+                <h2>Air India</h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" onclick="showSection('flights')">
+                    <span class="icon">✈️</span>
+                    <span>Flight Details</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('customers')">
+                    <span class="icon">👥</span>
+                    <span>Customer Details</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('booking')">
+                    <span class="icon">🎫</span>
+                    <span>Book Flight</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('journey')">
+                    <span class="icon">📋</span>
+                    <span>Journey Details</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('cancellation')">
+                    <span class="icon">❌</span>
+                    <span>Cancellation</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="login.html" class="btn-logout">
+                    <span class="icon">🚪</span>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Search flights, customers, bookings..." onkeyup="searchData()">
+                    <button class="btn-search">🔍</button>
+                </div>
+                <div class="user-info">
+                    <span>Welcome, Admin</span>
+                    <div class="user-avatar">A</div>
+                </div>
+            </header>
+            
+            <!-- Flight Details Section -->
+            <section id="flights" class="content-section active">
+                <h1>Flight Details</h1>
+                
+                <div class="filters">
+                    <input type="text" id="sourceFilter" placeholder="Source" onchange="filterFlights()">
+                    <input type="text" id="destinationFilter" placeholder="Destination" onchange="filterFlights()">
+                    <input type="date" id="dateFilter" onchange="filterFlights()">
+                    <input type="time" id="timeFilter" onchange="filterFlights()">
+                    <button onclick="resetFilters()" class="btn-secondary">Reset</button>
+                </div>
+                
+                <div class="table-container">
+                    <table class="data-table" id="flightsTable">
+                        <thead>
+                            <tr>
+                                <th>Flight ID</th>
+                                <th>Source</th>
+                                <th>Destination</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Price</th>
+                                <th>Available Seats</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="flightsTableBody">
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <button onclick="showAddFlightModal()" class="btn-primary">Add New Flight</button>
+            </section>
+            
+            <!-- Customer Details Section -->
+            <section id="customers" class="content-section">
+                <h1>Customer Details</h1>
+                
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Customer ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Passport No.</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customersTableBody">
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <button onclick="showAddCustomerModal()" class="btn-primary">Add New Customer</button>
+            </section>
+            
+            <!-- Book Flight Section -->
+            <section id="booking" class="content-section">
+                <h1>Book Flight</h1>
+                
+                <div class="booking-form-container">
+                    <form id="bookingForm" class="booking-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Select Flight</label>
+                                <select id="bookingFlightId" required>
+                                    <option value="">Choose a flight</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Select Customer</label>
+                                <select id="bookingCustomerId" required>
+                                    <option value="">Choose a customer</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Number of Passengers</label>
+                                <input type="number" id="passengerCount" min="1" max="9" value="1" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Travel Class</label>
+                                <select id="travelClass">
+                                    <option value="economy">Economy</option>
+                                    <option value="business">Business</option>
+                                    <option value="first">First Class</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Special Requests</label>
+                            <textarea id="specialRequests" rows="3" placeholder="Any special requirements..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary">Confirm Booking</button>
+                    </form>
+                </div>
+            </section>
+            
+            <!-- Journey Details Section -->
+            <section id="journey" class="content-section">
+                <h1>Journey Details</h1>
+                
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Flight ID</th>
+                                <th>Customer Name</th>
+                                <th>Source</th>
+                                <th>Destination</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="journeyTableBody">
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Cancellation Section -->
+            <section id="cancellation" class="content-section">
+                <h1>Cancellation</h1>
+                
+                <div class="cancellation-form-container">
+                    <form id="cancellationForm" class="cancellation-form">
+                        <div class="form-group">
+                            <label>Booking ID</label>
+                            <input type="text" id="cancelBookingId" placeholder="Enter booking ID" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Reason for Cancellation</label>
+                            <select id="cancelReason" required>
+                                <option value="">Select reason</option>
+                                <option value="personal">Personal Reasons</option>
+                                <option value="medical">Medical Emergency</option>
+                                <option value="weather">Weather Issues</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Additional Comments</label>
+                            <textarea id="cancelComments" rows="3"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn-danger">Cancel Booking</button>
+                    </form>
+                </div>
+                
+                <h2 style="margin-top: 40px;">Cancelled Bookings</h2>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Flight ID</th>
+                                <th>Customer Name</th>
+                                <th>Cancellation Date</th>
+                                <th>Reason</th>
+                                <th>Refund Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cancelledTableBody">
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <!-- Add Flight Modal -->
+    <div id="addFlightModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('addFlightModal')">&times;</span>
+            <h2>Add New Flight</h2>
+            <form id="addFlightForm">
+                <div class="form-group">
+                    <label>Flight ID</label>
+                    <input type="text" id="newFlightId" required>
+                </div>
+                <div class="form-group">
+                    <label>Source</label>
+                    <input type="text" id="newFlightSource" required>
+                </div>
+                <div class="form-group">
+                    <label>Destination</label>
+                    <input type="text" id="newFlightDestination" required>
+                </div>
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="newFlightDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Time</label>
+                    <input type="time" id="newFlightTime" required>
+                </div>
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="text" id="newFlightPrice" required>
+                </div>
+                <div class="form-group">
+                    <label>Total Seats</label>
+                    <input type="number" id="newFlightSeats" required>
+                </div>
+                <button type="submit" class="btn-primary">Add Flight</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Add Customer Modal -->
+    <div id="addCustomerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('addCustomerModal')">&times;</span>
+            <h2>Add New Customer</h2>
+            <form id="addCustomerForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="newCustomerName" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="newCustomerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="newCustomerPhone" required>
+                </div>
+                <div class="form-group">
+                    <label>Passport Number</label>
+                    <input type="text" id="newCustomerPassport" required>
+                </div>
+                <button type="submit" class="btn-primary">Add Customer</button>
+            </form>
+        </div>
+    </div>
+    
+    <script src="dashboard.js"></script>
+</body>
+</html>
